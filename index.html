@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Heru Rusdianto">
+    <title>API Tester - Test Your APIs Like Postman</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+    <div class="topbar">
+        <a href="https://github.com/herusdianto" class="github-link" target="_blank" rel="noopener noreferrer" title="GitHub Repository">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" fill="currentColor"/>
+            </svg>
+        </a>
+        <div class="theme-toggle">
+            <button id="theme-switch" aria-label="Toggle dark/light mode" class="theme-toggle-btn">
+                <span id="theme-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <header>
+        <h1>API Tester</h1>
+        <p>Test your REST APIs with ease - like Postman, but simpler</p>
+        <p class="client-side-note"><strong>100% Client-side:</strong> All requests are made from your browser. <u>No data is sent to any server.</u></p>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Request Section -->
+            <div class="request-section">
+                <h2>Request</h2>
+                
+                <!-- Method and URL -->
+                <div class="request-line">
+                    <select id="http-method" class="method-select">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="PATCH">PATCH</option>
+                        <option value="DELETE">DELETE</option>
+                        <option value="HEAD">HEAD</option>
+                        <option value="OPTIONS">OPTIONS</option>
+                    </select>
+                    <input type="text" id="request-url" class="url-input" placeholder="https://api.example.com/endpoint">
+                    <button id="send-btn" class="send-btn">Send</button>
+                </div>
+
+                <!-- Request Tabs -->
+                <div class="request-tabs">
+                    <button class="tab-btn active" data-tab="params">Params</button>
+                    <button class="tab-btn" data-tab="headers">Headers</button>
+                    <button class="tab-btn" data-tab="body">Body</button>
+                    <button class="tab-btn" data-tab="auth">Auth</button>
+                </div>
+
+                <!-- Params Tab -->
+                <div class="tab-content active" id="params-tab">
+                    <div class="kv-editor" id="params-editor">
+                        <div class="kv-header">
+                            <span>Key</span>
+                            <span>Value</span>
+                            <span></span>
+                        </div>
+                        <div class="kv-rows" id="params-rows">
+                            <!-- Dynamic rows will be added here -->
+                        </div>
+                        <button class="add-row-btn" data-target="params-rows">+ Add Parameter</button>
+                    </div>
+                </div>
+
+                <!-- Headers Tab -->
+                <div class="tab-content" id="headers-tab">
+                    <div class="kv-editor" id="headers-editor">
+                        <div class="kv-header">
+                            <span>Key</span>
+                            <span>Value</span>
+                            <span></span>
+                        </div>
+                        <div class="kv-rows" id="headers-rows">
+                            <!-- Dynamic rows will be added here -->
+                        </div>
+                        <button class="add-row-btn" data-target="headers-rows">+ Add Header</button>
+                    </div>
+                </div>
+
+                <!-- Body Tab -->
+                <div class="tab-content" id="body-tab">
+                    <div class="body-type-selector">
+                        <label class="body-type-option">
+                            <input type="radio" name="body-type" value="none" checked>
+                            <span>None</span>
+                        </label>
+                        <label class="body-type-option">
+                            <input type="radio" name="body-type" value="json">
+                            <span>JSON</span>
+                        </label>
+                        <label class="body-type-option">
+                            <input type="radio" name="body-type" value="form">
+                            <span>Form Data</span>
+                        </label>
+                        <label class="body-type-option">
+                            <input type="radio" name="body-type" value="raw">
+                            <span>Raw</span>
+                        </label>
+                    </div>
+                    <div class="body-content" id="body-content">
+                        <textarea id="request-body" placeholder="Request body will appear here..."></textarea>
+                    </div>
+                    <div class="form-data-editor hidden" id="form-data-editor">
+                        <div class="kv-editor">
+                            <div class="kv-header">
+                                <span>Key</span>
+                                <span>Value</span>
+                                <span></span>
+                            </div>
+                            <div class="kv-rows" id="form-data-rows">
+                                <!-- Dynamic rows will be added here -->
+                            </div>
+                            <button class="add-row-btn" data-target="form-data-rows">+ Add Field</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auth Tab -->
+                <div class="tab-content" id="auth-tab">
+                    <div class="auth-type-selector">
+                        <label for="auth-type">Authorization Type</label>
+                        <select id="auth-type">
+                            <option value="none">No Auth</option>
+                            <option value="bearer">Bearer Token</option>
+                            <option value="basic">Basic Auth</option>
+                            <option value="api-key">API Key</option>
+                        </select>
+                    </div>
+                    <div class="auth-fields" id="auth-fields">
+                        <!-- Dynamic auth fields will be added here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Response Section -->
+            <div class="response-section">
+                <div class="response-header">
+                    <h2>Response</h2>
+                    <div class="response-meta" id="response-meta">
+                        <span class="status-badge" id="status-badge">-</span>
+                        <span class="response-time" id="response-time">-</span>
+                        <span class="response-size" id="response-size">-</span>
+                    </div>
+                </div>
+
+                <!-- Response Tabs -->
+                <div class="response-tabs">
+                    <button class="resp-tab-btn active" data-resp-tab="body">Body</button>
+                    <button class="resp-tab-btn" data-resp-tab="headers">Headers</button>
+                </div>
+
+                <!-- Response Body Tab -->
+                <div class="resp-tab-content active" id="resp-body-tab">
+                    <div class="response-body-actions">
+                        <button class="copy-btn" data-target="response-body">Copy</button>
+                        <button class="format-btn" id="format-btn">Format JSON</button>
+                        <button class="download-btn" data-content="response-body" data-filename="response.json">Download</button>
+                    </div>
+                    <textarea id="response-body" readonly placeholder="Response will appear here..."></textarea>
+                </div>
+
+                <!-- Response Headers Tab -->
+                <div class="resp-tab-content" id="resp-headers-tab">
+                    <div class="response-headers-list" id="response-headers-list">
+                        <p class="placeholder-text">Response headers will appear here...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <div class="history-header">
+                <h2>History</h2>
+                <button class="clear-history-btn" id="clear-history-btn">Clear All</button>
+            </div>
+            <div class="history-list" id="history-list">
+                <p class="placeholder-text">No requests yet. Send a request to see it here.</p>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status" class="status hidden"></div>
+    </div>
+
+    <footer>
+        <p>Created by <a href="https://herusdianto.github.io/" target="_blank" rel="noopener noreferrer">Heru Rusdianto</a> with AI Assistance</p>
+        <p class="copyright">
+            © <span id="currentYear"></span> All rights reserved
+        </p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
