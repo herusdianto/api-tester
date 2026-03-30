@@ -72,4 +72,4 @@ Works in all modern browsers that support:
 
 Created by Heru Rusdianto with AI Assistance
 
-© 2024 All rights reserved
+© 2026 All rights reserved
