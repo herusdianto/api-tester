@@ -70,6 +70,12 @@ Works in all modern browsers that support:
 
 ## License
 
-Created by Heru Rusdianto with AI Assistance
+MIT License
 
-© 2026 All rights reserved
+## Contributing
+
+Contributions are welcome! Feel free to submit a Pull Request.
+
+## Demo
+
+[https://herusdianto.github.io/api-tester/](https://herusdianto.github.io/api-tester/)
